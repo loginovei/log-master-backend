@@ -9,6 +9,7 @@ import org.apache.hc.client5.http.auth.AuthScope;
 import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http2.HttpVersionPolicy;
 import org.opensearch.client.json.jackson.JacksonJsonpMapper;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.transport.OpenSearchTransport;
@@ -51,16 +52,18 @@ public class OpenSearchConfig {
                 .builder(httpHost)
                 .setMapper(new JacksonJsonpMapper(objectMapper));
 
-        if (!username.isBlank()) {
-            BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-            credentialsProvider.setCredentials(
-                    new AuthScope(null, -1),
-                    new UsernamePasswordCredentials(username, password.toCharArray())
-            );
-            builder.setHttpClientConfigCallback(httpClientBuilder ->
-                    httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
-            );
-        }
+        builder.setHttpClientConfigCallback(httpClientBuilder -> {
+            httpClientBuilder.setVersionPolicy(HttpVersionPolicy.FORCE_HTTP_1);
+            if (!username.isBlank()) {
+                BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                credentialsProvider.setCredentials(
+                        new AuthScope(null, -1),
+                        new UsernamePasswordCredentials(username, password.toCharArray())
+                );
+                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            }
+            return httpClientBuilder;
+        });
 
         OpenSearchTransport transport = builder.build();
         return new OpenSearchClient(transport);
