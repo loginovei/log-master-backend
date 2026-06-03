@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "code":            { "type": "keyword" },
+    "applicationCode": { "type": "keyword" },
+    "level":           { "type": "keyword" },
+    "created":         { "type": "date" },
+    "exception":       { "type": "text" },
+    "additional":      { "type": "object", "enabled": false },
+    "args":            { "type": "object", "dynamic": true }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "dynamic_templates": [
+    {
+      "messages_text": {
+        "path_match": "messages.*",
+        "mapping": { "type": "text" }
+      }
+    }
+  ],
+  "properties": {
+    "code": {
+      "type": "text",
+      "fields": {
+        "keyword": { "type": "keyword" }
+      }
+    },
+    "applicationCode": { "type": "keyword" },
+    "level":           { "type": "keyword" },
+    "messages":        { "type": "object", "dynamic": true }
+  }
+}

@@ -1,0 +1,6 @@
+log-master/target/
+log-client-lib/target/
+rules/
+*.git.bak
+log-client-lib/.git.bak/
+log-master/.git.bak/

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//tmp/**)",
+      "Bash(javap -p 'org/opensearch/client/opensearch/_types/query_dsl/RangeQuery$Builder.class')",
+      "Bash(javap -p 'org/opensearch/client/opensearch/_types/query_dsl/RangeQuery$Builder')",
+      "Bash(jar xf *)",
+      "Bash(javap -p 'org/opensearch/client/opensearch/_types/mapping/TypeMapping$Builder.class')",
+      "Bash(javap -p \"org/opensearch/client/transport/Transport.class\")"
+    ]
+  }
+}
