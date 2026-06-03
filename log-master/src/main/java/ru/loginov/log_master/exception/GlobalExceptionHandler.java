@@ -1,6 +1,8 @@
 package ru.loginov.log_master.exception;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +34,11 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining("; "));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(400, message));
+    }
+
+    @ExceptionHandler(ClientAbortException.class)
+    public void handleClientAbort(ClientAbortException ex, HttpServletResponse response) {
+        // клиент оборвал соединение — ничего не делаем
     }
 
     @ExceptionHandler(Exception.class)
